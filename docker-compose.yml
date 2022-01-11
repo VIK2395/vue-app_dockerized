@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  vue-app:
+    build: .
+    image: vue-app:1.0
+    container_name: vue-app
+#   tty: true                    # docker run -t => pseudo-terminal inside real terminal
+#   stdin_open: true             # docker run -i => standard i/o
+#   env_file:
+#     - .env
+#   environment:
+#     - MYSQL_USER=$MYSQL_USER
+#     - MYSQL_PASSWORD=$MYSQL_PASSWORD
+    networks:
+      vue-app-network:
+        ipv4_address: 172.24.0.2
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/home/vue-app
+networks:
+  vue-app-network:
+    name: vue-app-network
+    driver: bridge
+#   enable_ipv6: false
+    ipam:
+#     driver: default
+      config:
+        - subnet: 172.24.0.0/16
+          gateway: 172.24.0.1
